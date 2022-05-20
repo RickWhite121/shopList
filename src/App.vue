@@ -2,7 +2,7 @@
   <div class="container mx-auto" id="app">
     <ListComponent
       v-if="listShow"
-      :parent-data="filterData"
+      :parent-data.sync="filterData"
       @update="switchListShow"
     />
     <CartComponent :parent-data="pdTotal" @update="switchListShow" />

@@ -37,7 +37,7 @@
             <tr class="list__tableFoot">
               <td class="list__td" colspan="2">合併</td>
               <td class="list__td list__td--textRight">
-                {{ countTotalP }}
+                {{ priceStrMaker(total) }}
               </td>
             </tr>
           </tfoot>
@@ -54,14 +54,6 @@
 export default {
   name: 'ListComponent',
 
-  // mounted() {
-  //   document.addEventListener('keyup', function (e) {
-  //     if (e.keyCode === 27) {
-  //       this.listShow = false;
-  //     }
-  //   });
-  // },
-
   data() {
     return {
       total: 0,
@@ -73,14 +65,15 @@ export default {
       type: Array,
     },
   },
-
-  computed: {
-    countTotalP() {
-      return this.parentData.forEach(function (item) {
-        return (this.total = this.total + item.count * item.price);
-      });
-    },
+  async mounted() {
+    // this.total = await this.priceCounter();
+    //   document.addEventListener('keyup', function (e) {
+    //     if (e.keyCode === 27) {
+    //       this.listShow = false;
+    //     }
+    //   });
   },
+  computed: {},
 
   methods: {
     priceStrMaker(num) {
@@ -91,6 +84,13 @@ export default {
       this.$emit('update');
     },
   },
+
+  // priceCounter(sum = 0) {
+  //   this.parentData.forEach((item) => {
+  //     sum = sum + item.price * item.count;
+  //   });
+  //   return sum;
+  // },
 };
 </script>
 
