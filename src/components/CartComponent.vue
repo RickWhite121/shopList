@@ -11,16 +11,12 @@
 <script>
 export default {
   name: 'CartComponent',
-  data() {
-    return {};
-  },
+
   props: {
     parentData: {
       type: Number,
     },
   },
-
-  computed: {},
 
   methods: {
     clickToShowList() {

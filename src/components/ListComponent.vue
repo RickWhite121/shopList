@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="list"
-    @click.self="clickToCloseList"
-    @keyup.esc="keyUptoCloseVideo"
-  >
+  <div class="list" @click.self="clickToCloseList">
     <div class="list__content">
       <h3 class="list__title">您的購物清單</h3>
       <div class="list__tableZone">
@@ -21,14 +17,14 @@
                 <td class="list__td">{{ item.name }}</td>
                 <td class="list__td">{{ item.desc }}</td>
                 <td class="list__td list__td--textRight">
-                  {{ priceStrMaker(item.price) }}
+                  {{ priceStrMaker(item.price * item.count) }}
                 </td>
               </tr>
               <tr v-else class="list__row list__row--stripe" :key="item.id">
                 <td class="list__td">{{ item.name }}</td>
                 <td class="list__td">{{ item.desc }}</td>
                 <td class="list__td list__td--textRight">
-                  {{ priceStrMaker(item.price) }}
+                  {{ priceStrMaker(item.price * item.count) }}
                 </td>
               </tr>
             </template>
@@ -37,7 +33,7 @@
             <tr class="list__tableFoot">
               <td class="list__td" colspan="2">合併</td>
               <td class="list__td list__td--textRight">
-                {{ priceStrMaker(total) }}
+                {{ priceStrMaker(total()) }}
               </td>
             </tr>
           </tfoot>
@@ -54,28 +50,19 @@
 export default {
   name: 'ListComponent',
 
-  data() {
-    return {
-      total: 0,
-    };
-  },
-
   props: {
     parentData: {
       type: Array,
     },
   },
-  async mounted() {
-    // this.total = await this.priceCounter();
-    //   document.addEventListener('keyup', function (e) {
-    //     if (e.keyCode === 27) {
-    //       this.listShow = false;
-    //     }
-    //   });
-  },
-  computed: {},
 
   methods: {
+    countTotal() {
+      this.parentData.forEach((item) => {
+        this.total += item.count * item.price;
+      });
+    },
+
     priceStrMaker(num) {
       return `$${num.toLocaleString()}`;
     },
@@ -83,14 +70,14 @@ export default {
     clickToCloseList() {
       this.$emit('update');
     },
-  },
 
-  // priceCounter(sum = 0) {
-  //   this.parentData.forEach((item) => {
-  //     sum = sum + item.price * item.count;
-  //   });
-  //   return sum;
-  // },
+    total(sum = 0) {
+      this.parentData.forEach((item) => {
+        sum += parseInt(item.price * item.count);
+      });
+      return sum;
+    },
+  },
 };
 </script>
 

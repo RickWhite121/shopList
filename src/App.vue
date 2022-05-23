@@ -2,10 +2,10 @@
   <div class="container mx-auto" id="app">
     <ListComponent
       v-if="listShow"
-      :parent-data.sync="filterData"
+      :parent-data="filterData()"
       @update="switchListShow"
     />
-    <CartComponent :parent-data="pdTotal" @update="switchListShow" />
+    <CartComponent :parent-data.sync="pdTotal" @update="switchListShow" />
     <main class="main grid">
       <CardComponent
         v-for="item in pdData"
@@ -37,12 +37,15 @@ export default {
     this.addCountKey();
   },
 
-  computed: {
-    filterData() {
-      return this.pdData.filter(function (item) {
-        return item.count > 0;
+  mounted() {
+    const self = this;
+    this.$nextTick(function () {
+      document.addEventListener('keyup', function (e) {
+        if (e.keyCode === 27 && self.listShow === true) {
+          self.closeList();
+        }
       });
-    },
+    });
   },
 
   methods: {
@@ -70,8 +73,16 @@ export default {
       this.pdTotal += num;
     },
 
+    closeList() {
+      this.listShow = false;
+    },
+
     switchListShow() {
       this.listShow ? (this.listShow = false) : (this.listShow = true);
+    },
+
+    filterData() {
+      return this.pdData.filter((item) => item.count > 0);
     },
   },
 

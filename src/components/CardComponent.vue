@@ -34,6 +34,7 @@ export default {
       count: 0,
     };
   },
+
   props: {
     parentData: {
       type: Object,
