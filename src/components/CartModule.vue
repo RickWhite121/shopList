@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: 'CartComponent',
+  name: 'CartModule',
 
   props: {
     parentData: {
