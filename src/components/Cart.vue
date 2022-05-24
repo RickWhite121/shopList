@@ -1,9 +1,9 @@
 <template>
   <div class="cart">
     <p class="cart__title">商品數量</p>
-    <p class="cart__total">{{ parentData }}</p>
+    <p class="cart__total">{{ getPdTotal }}</p>
     <button
-      v-if="parentData !== 0"
+      v-if="getPdTotal !== 0"
       class="cart__btn"
       @click="clickToShowList"
       type="button"
@@ -17,15 +17,15 @@
 export default {
   name: 'CartModule',
 
-  props: {
-    parentData: {
-      type: Number,
+  computed: {
+    getPdTotal() {
+      return this.$store.state.pdTotal;
     },
   },
 
   methods: {
     clickToShowList() {
-      this.$emit('update');
+      this.$store.commit('setListStatus');
     },
   },
 };

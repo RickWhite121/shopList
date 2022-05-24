@@ -1,18 +1,9 @@
 <template>
   <div class="container mx-auto" id="app">
-    <Cover
-      v-if="listShow"
-      :parent-data="fullList"
-      @update="clickToSwitchListStatus"
-    />
-    <Cart :parent-data="pdTotal" @update="clickToSwitchListStatus" />
+    <Cover v-if="getListStatus" :parent-data="getFullList" />
+    <Cart />
     <main class="main grid">
-      <Product
-        v-for="item in pdData"
-        :key="item.id"
-        :parent-data="item"
-        @update="cartListHandler"
-      />
+      <Product v-for="item in pdData" :key="item.id" :parent-data="item" />
     </main>
   </div>
 </template>
@@ -27,9 +18,6 @@ export default {
   data() {
     return {
       pdData: [],
-      cartList: [],
-      pdTotal: 0,
-      listShow: false,
     };
   },
 
@@ -40,18 +28,22 @@ export default {
   mounted() {
     const self = this;
     document.addEventListener('keyup', function (e) {
-      if (e.keyCode === 27 && self.listShow === true) {
+      if (e.keyCode === 27 && self.getListStatus === true) {
         self.keyUpToCloseList();
       }
     });
   },
 
   computed: {
-    fullList() {
-      return this.cartList.map((item) => {
+    getFullList() {
+      return this.$store.state.cartList.map((item) => {
         const pdID = (elem) => elem.id === item;
         return this.pdData.find(pdID);
       });
+    },
+
+    getListStatus() {
+      return this.$store.state.listShow;
     },
   },
 
@@ -65,22 +57,8 @@ export default {
       }
     },
 
-    cartListHandler(num, id) {
-      this.pdTotal += num;
-      if (num === 1) {
-        this.cartList.push(id);
-      } else {
-        const removeIndex = this.cartList.findIndex((item) => item === id);
-        this.cartList.splice(removeIndex, 1);
-      }
-    },
-
     keyUpToCloseList() {
-      this.listShow = false;
-    },
-
-    clickToSwitchListStatus() {
-      this.listShow ? (this.listShow = false) : (this.listShow = true);
+      this.$store.commit('setListStatus');
     },
   },
 

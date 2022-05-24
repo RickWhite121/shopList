@@ -58,7 +58,7 @@ export default {
     },
 
     clickToCloseList() {
-      this.$emit('update');
+      this.$store.commit('setListStatus');
     },
 
     getTotal(sum = 0) {

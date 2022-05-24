@@ -1,6 +1,6 @@
 <template>
   <div class="cover" @click.self="clickToCloseList">
-    <List v-bind="$attrs" v-on="$listeners" />
+    <List v-bind="$attrs" />
   </div>
 </template>
 
@@ -11,7 +11,7 @@ export default {
   inheritAttrs: false,
   methods: {
     clickToCloseList() {
-      this.$emit('update');
+      this.$store.commit('setListStatus');
     },
   },
   components: {

@@ -16,7 +16,7 @@
         :alt="parentData.name"
       />
     </div>
-    <ButtonCom :parent-id="parentData.id" v-on="$listeners" />
+    <ButtonCom :parent-id="parentData.id" />
   </div>
 </template>
 

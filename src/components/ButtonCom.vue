@@ -30,6 +30,7 @@ export default {
       minLimit: 0,
     };
   },
+
   props: {
     parentId: {
       type: Number,
@@ -39,7 +40,7 @@ export default {
   methods: {
     clickToUpdateCount(num) {
       this.count += num;
-      this.$emit('update', parseInt(num, 10), this.parentId);
+      this.$store.commit('setCartList', [num, this.parentId]);
     },
 
     setBtnStatus(limit) {
