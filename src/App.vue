@@ -1,17 +1,16 @@
 <template>
   <div class="container mx-auto" id="app">
-    <CoverModule
+    <Cover
       v-if="listShow"
-      :parent-data="cartList"
-      @update="switchListShow"
+      :parent-data="fullList"
+      @update="clickToSwitchListStatus"
     />
-    <CartModule :parent-data.sync="pdTotal" @update="switchListShow" />
+    <Cart :parent-data="pdTotal" @update="clickToSwitchListStatus" />
     <main class="main grid">
-      <CardModule
+      <Product
         v-for="item in pdData"
         :key="item.id"
         :parent-data="item"
-        :parent-limit="pdLimit"
         @update="cartListHandler"
       />
     </main>
@@ -19,9 +18,9 @@
 </template>
 
 <script>
-import CardModule from './components/CardModule.vue';
-import CartModule from './components/CartModule.vue';
-import CoverModule from './components/CoverModule.vue';
+import Product from './components/Product.vue';
+import Cart from './components/Cart.vue';
+import Cover from './components/Cover.vue';
 
 export default {
   name: 'App',
@@ -31,10 +30,6 @@ export default {
       cartList: [],
       pdTotal: 0,
       listShow: false,
-      pdLimit: {
-        minValue: 0,
-        maxValue: 5,
-      },
     };
   },
 
@@ -44,13 +39,20 @@ export default {
 
   mounted() {
     const self = this;
-    this.$nextTick(function () {
-      document.addEventListener('keyup', function (e) {
-        if (e.keyCode === 27 && self.listShow === true) {
-          self.closeList();
-        }
-      });
+    document.addEventListener('keyup', function (e) {
+      if (e.keyCode === 27 && self.listShow === true) {
+        self.keyUpToCloseList();
+      }
     });
+  },
+
+  computed: {
+    fullList() {
+      return this.cartList.map((item) => {
+        const pdID = (elem) => elem.id === item;
+        return this.pdData.find(pdID);
+      });
+    },
   },
 
   methods: {
@@ -66,35 +68,26 @@ export default {
     cartListHandler(num, id) {
       this.pdTotal += num;
       if (num === 1) {
-        this.pdData.map((item) => {
-          if (item.id === id) {
-            this.cartList.push(item);
-          }
-        });
+        this.cartList.push(id);
       } else {
-        const idDefine = (item) => item.id === id;
-        const removeIndex = this.cartList.findIndex(idDefine);
+        const removeIndex = this.cartList.findIndex((item) => item === id);
         this.cartList.splice(removeIndex, 1);
       }
     },
 
-    closeList() {
+    keyUpToCloseList() {
       this.listShow = false;
     },
 
-    switchListShow() {
+    clickToSwitchListStatus() {
       this.listShow ? (this.listShow = false) : (this.listShow = true);
-    },
-
-    filterData() {
-      return this.pdData.filter((item) => item.count > 0);
     },
   },
 
   components: {
-    CardModule,
-    CartModule,
-    CoverModule,
+    Product,
+    Cart,
+    Cover,
   },
 };
 </script>

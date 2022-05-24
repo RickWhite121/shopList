@@ -2,7 +2,12 @@
   <div class="cart">
     <p class="cart__title">商品數量</p>
     <p class="cart__total">{{ parentData }}</p>
-    <button v-if="parentData !== 0" class="cart__btn" @click="clickToShowList">
+    <button
+      v-if="parentData !== 0"
+      class="cart__btn"
+      @click="clickToShowList"
+      type="button"
+    >
       購物清單
     </button>
   </div>
@@ -56,5 +61,6 @@ export default {
   border: none;
   background-color: #94cd4c;
   cursor: pointer;
+  outline: none;
 }
 </style>

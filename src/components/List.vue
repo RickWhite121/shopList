@@ -12,14 +12,14 @@
         </thead>
         <tbody>
           <template v-for="(item, i) in parentData">
-            <tr v-if="i % 2 === 0" class="list__row" :key="item.id">
+            <tr v-if="i % 2 === 0" class="list__row" :key="i">
               <td class="list__td">{{ item.name }}</td>
               <td class="list__td">{{ item.desc }}</td>
               <td class="list__td list__td--textRight">
                 {{ priceStrMaker(item.price) }}
               </td>
             </tr>
-            <tr v-else class="list__row list__row--stripe" :key="item.id">
+            <tr v-else class="list__row list__row--stripe" :key="i">
               <td class="list__td">{{ item.name }}</td>
               <td class="list__td">{{ item.desc }}</td>
               <td class="list__td list__td--textRight">
@@ -76,8 +76,10 @@ export default {
 .list {
   padding: 15px;
   width: 850px;
+  max-height: 80vh;
   background-color: #fff;
   border-radius: 10px;
+  overflow: auto;
 }
 
 .list__title {

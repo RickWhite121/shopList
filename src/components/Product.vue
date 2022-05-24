@@ -3,7 +3,9 @@
     <div class="card__textZone">
       <h2 class="card__title">{{ parentData.name }}</h2>
       <p class="card__desc">{{ parentData.desc }}</p>
-      <p class="card__price">{{ priceStrMaker(parentData.price) }}</p>
+      <p class="card__price">
+        {{ priceStrMaker(parentData.price) }}
+      </p>
     </div>
     <div class="card__imgZone">
       <img
@@ -14,20 +16,16 @@
         :alt="parentData.name"
       />
     </div>
-    <ButtonModule
-      v-bind="$attrs"
-      :parent-id="parentData.id"
-      v-on="$listeners"
-    />
+    <ButtonCom :parent-id="parentData.id" v-on="$listeners" />
   </div>
 </template>
 
 <script>
-import ButtonModule from './ButtonModule.vue';
+import ButtonCom from './ButtonCom.vue';
 
 export default {
-  name: 'CardModule',
-
+  name: 'ProductModule',
+  inheritAttrs: false,
   props: {
     parentData: {
       type: Object,
@@ -41,7 +39,7 @@ export default {
   },
 
   components: {
-    ButtonModule,
+    ButtonCom,
   },
 };
 </script>

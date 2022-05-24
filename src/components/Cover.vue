@@ -1,28 +1,28 @@
 <template>
-  <div class="Cover" @click.self="clickToCloseList">
-    <ListModule v-bind="$attrs" v-on="$listeners" />
+  <div class="cover" @click.self="clickToCloseList">
+    <List v-bind="$attrs" v-on="$listeners" />
   </div>
 </template>
 
 <script>
-import ListModule from './ListModule.vue';
+import List from './List.vue';
 export default {
   name: 'CoverModule',
-
+  inheritAttrs: false,
   methods: {
     clickToCloseList() {
       this.$emit('update');
     },
   },
   components: {
-    ListModule,
+    List,
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.Cover {
+.cover {
   position: fixed;
   top: 0;
   left: 0;

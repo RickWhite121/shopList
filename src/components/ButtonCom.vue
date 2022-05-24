@@ -2,16 +2,18 @@
   <div class="card__btnZone">
     <button
       class="card__btn"
-      :disabled="setBtnStatus(parentLimit.minValue)"
-      @click="counter(-1)"
+      :disabled="setBtnStatus(minLimit)"
+      @click="clickToUpdateCount(-1)"
+      type="button"
     >
       -
     </button>
     <p class="card__amount">{{ count }}</p>
     <button
       class="card__btn"
-      :disabled="setBtnStatus(parentLimit.maxValue)"
-      @click="counter(+1)"
+      :disabled="setBtnStatus(maxLimit)"
+      @click="clickToUpdateCount(+1)"
+      type="button"
     >
       +
     </button>
@@ -24,20 +26,18 @@ export default {
   data() {
     return {
       count: 0,
+      maxLimit: 5,
+      minLimit: 0,
     };
   },
-
   props: {
-    parentLimit: {
-      type: Object,
-    },
     parentId: {
       type: Number,
     },
   },
 
   methods: {
-    counter(num) {
+    clickToUpdateCount(num) {
       this.count += num;
       this.$emit('update', parseInt(num, 10), this.parentId);
     },
@@ -67,6 +67,7 @@ export default {
   border: 1px solid rgb(221, 218, 218);
   border-radius: 3px;
   cursor: pointer;
+  outline: none;
 }
 
 .card__btn:disabled {
